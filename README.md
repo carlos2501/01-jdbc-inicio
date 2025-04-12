@@ -20,6 +20,10 @@ cualquier otro JDK compatible con JDBC, recuerda modificar y actualizar el pom.x
 ## Uso ##
 Cada commit corresponde a un paso del proceso de conexión, configuración y uso de JDBC.
 
+Como BBDD se utiliza "jardineria". Para crearla y cargar los datos, ejecutar el script jardineria.sql desde la consola 
+de MySQL o cualquier administrador de MySQL (DBeaver, WorkBench, ...).
+El scrip puede necesitar ajustes para ejecutarlo en PostgreSQL.
+
 ## Tecnologías utilizadas
 
 - **Lenguaje**: Java
