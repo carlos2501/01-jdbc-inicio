@@ -17,7 +17,10 @@ public static void main(String[] args) {
         while (rs.next()) {
             System.out.println(rs.getInt("codigo_cliente") + " - " + rs.getString("nombre_cliente"));
         }
-
+        // cerramos la conexión
+        rs.close();
+        stmt.close();
+        conex.close();
     } catch (SQLException e) {
         throw new RuntimeException(e);
     }
