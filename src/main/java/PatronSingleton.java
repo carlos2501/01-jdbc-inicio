@@ -1,30 +1,28 @@
-import util.ConexionBD;
+import entidades.Empleado;
+import repositorios.ClienteRepo;
+import repositorios.EmpleadoRepo;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.List;
+import java.util.Map;
 
-public static void main(String[] args) {
+public static void main(String[] args) throws SQLException {
 
-    // Ahora utilizamos el singleton que hemos creado en ConexionBD.
-    // Como vamos a ejecutar varias sentencias SQL, hay que incluirlos en el try con recursos
-    try (Connection conex = ConexionBD.creaConexion();
-         Statement stmt = conex.createStatement();
-         ResultSet rs = stmt.executeQuery("SELECT * FROM cliente");
-         Statement stmt2 = conex.createStatement();
-         ResultSet rs2 = stmt2.executeQuery("SELECT * FROM empleado")
-         ){
+    ClienteRepo repoCli = new ClienteRepo();
+    EmpleadoRepo repoEmp = new EmpleadoRepo();
 
-        System.out.println("--------------- Lista de clientes --------------------");
-        while(rs.next()){
-            System.out.println(rs.getInt("codigo_cliente") + " - " + rs.getString("nombre_cliente"));
+    System.out.println("-------------- Lista de clientes ------------");
+    repoCli.listaDeClientes().forEach(System.out::println);
+    System.out.println("-------------- Lista de empleados ------------");
+    repoEmp.listaDeEmpleados().forEach(System.out::println);
+    System.out.println("-------------- Lista de empleados x oficina ------------");
+    Map<String, List<Empleado>> empleadosPorOficina = repoEmp.listaDeEmpleadosPorOficina();
+    for (Map.Entry<String, List<Empleado>> entry : empleadosPorOficina.entrySet()) {
+        System.out.println("Código de Oficina: " + entry.getKey());
+        System.out.println("Empleados:");
+        for (Empleado empleado : entry.getValue()) {
+            System.out.println(empleado);
         }
-        System.out.println("--------------- Lista de empleados --------------------");
-        while(rs2.next()){
-            System.out.println(rs2.getInt("codigo_empleado") + " - " + rs2.getString("nombre"));
-        }
-    } catch (SQLException e) {
-        throw new RuntimeException(e);
+        System.out.println("----------------------------");
     }
 }
