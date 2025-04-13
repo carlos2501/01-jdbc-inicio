@@ -36,16 +36,7 @@ public class EmpleadoRepo {
              ResultSet rs = stmt.executeQuery(SELECT_EMPLEADOS)) {
 
             while (rs.next()) {
-                Empleado empleado = new Empleado();
-                empleado.setCodigoEmpleado(rs.getInt("codigo_empleado"));
-                empleado.setNombre(rs.getString("nombre"));
-                empleado.setApellido1(rs.getString("apellido1"));
-                empleado.setApellido2(rs.getString("apellido2")); // Puede ser NULL
-                empleado.setExtension(rs.getString("extension"));
-                empleado.setEmail(rs.getString("email"));
-                empleado.setCodigoOficina(rs.getString("codigo_oficina"));
-                empleado.setCodigoJefe(rs.getObject("codigo_jefe") != null ? rs.getInt("codigo_jefe") : null); // Manejo de NULL
-                empleado.setPuesto(rs.getString("puesto")); // Puede ser NULL
+                Empleado empleado = cargaEmpleado(rs);
                 empleados.add(empleado);
             }
         } catch (SQLException e) {
@@ -66,17 +57,7 @@ public class EmpleadoRepo {
              ResultSet rs = stmt.executeQuery(SELECT_EMPLEADOSxOFICINA)) {
             // Recorremos los registros devueltos por la consulta
             while (rs.next()) {
-                Empleado empleado = new Empleado();
-                empleado.setCodigoEmpleado(rs.getInt("codigo_empleado"));
-                empleado.setNombre(rs.getString("nombre"));
-                empleado.setApellido1(rs.getString("apellido1"));
-                empleado.setApellido2(rs.getString("apellido2"));
-                empleado.setExtension(rs.getString("extension"));
-                empleado.setEmail(rs.getString("email"));
-                empleado.setCodigoOficina(rs.getString("codigo_oficina"));
-                empleado.setCodigoJefe(rs.getObject("codigo_jefe") != null ? rs.getInt("codigo_jefe") : null);
-                empleado.setPuesto(rs.getString("puesto"));
-
+                Empleado empleado = cargaEmpleado(rs);
                 // Agrupar empleados por oficina.
                 empleadosPorOficina
                         // Si la oficina no existe como clave en el Map, creamos un nuevo elemento
@@ -88,5 +69,22 @@ public class EmpleadoRepo {
             throw new RuntimeException(e);
         }
         return empleadosPorOficina;
+    }
+
+    /**
+     * Creamos una nueva instancia (objeto) de Empleado y le asignamos los campos del registro
+     */
+    private Empleado cargaEmpleado(ResultSet rs) throws SQLException {
+        Empleado empleado = new Empleado();
+        empleado.setCodigoEmpleado(rs.getInt("codigo_empleado"));
+        empleado.setNombre(rs.getString("nombre"));
+        empleado.setApellido1(rs.getString("apellido1"));
+        empleado.setApellido2(rs.getString("apellido2")); // Puede ser NULL
+        empleado.setExtension(rs.getString("extension"));
+        empleado.setEmail(rs.getString("email"));
+        empleado.setCodigoOficina(rs.getString("codigo_oficina"));
+        empleado.setCodigoJefe(rs.getObject("codigo_jefe") != null ? rs.getInt("codigo_jefe") : null); // Manejo de NULL
+        empleado.setPuesto(rs.getString("puesto")); // Puede ser NULL
+        return empleado;
     }
 }

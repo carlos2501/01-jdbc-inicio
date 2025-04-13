@@ -37,6 +37,8 @@ Cada commit corresponde a un paso del proceso de conexión, configuración y uso
 con recursos.
 8. ***Paso 7*** - Se desacopla el código para separar definición de datos, acceso a los mismos, procesamiento de estos
 y visualización al usuario.
+9. (El ***paso 8*** corresponde a la actualización del README.md y no es estrictamente necesario)
+9. ***Paso 9*** - Aplicamos el patrón Singleton dentro de EmpleadoRepo a la asignación de los campos de un empleado.
 
 Como BBDD se utiliza "jardineria". Para crearla y cargar los datos, ejecutar el script jardineria.sql desde la consola 
 de MySQL o cualquier administrador de MySQL (DBeaver, WorkBench, ...).
