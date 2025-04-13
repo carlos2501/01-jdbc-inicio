@@ -18,6 +18,11 @@ Asegúrate de tener el **JDK 23 de Temurin** instalado y configurado en tu entor
 cualquier otro JDK compatible con JDBC, recuerda modificar y actualizar el pom.xml para reflejar el cambio.
 
 ## Uso ##
+- La rama _main_ únicamente contiene el README.md.
+- La rama _PostgreSql_ únicamente sirve para mostrar la configuración del
+conector de Java para PostGreSQL en el pom.xml.
+- La rama _MySql_ contiene el desarrollo del proyecto paso a paso para MySQL. 
+
 Cada commit corresponde a un paso del proceso de conexión, configuración y uso de JDBC.
 
 1. ***Commit Inicial*** - Se crea el proyecto sin código ni configuración.

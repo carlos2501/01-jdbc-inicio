@@ -25,4 +25,6 @@ public static void main(String[] args) throws SQLException {
         }
         System.out.println("----------------------------");
     }
+    System.out.println("\n-------------- CLIENTES CON DIRECCIÓN DE OFICINA ------------------");
+    repoCli.listaDeClientesConOficina();
 }
