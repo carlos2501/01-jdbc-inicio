@@ -3,6 +3,7 @@ import repositorios.ClienteRepo;
 import repositorios.EmpleadoRepo;
 
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -26,5 +27,25 @@ public static void main(String[] args) throws SQLException {
         System.out.println("----------------------------");
     }
     System.out.println("\n-------------- CLIENTES CON DIRECCIÓN DE OFICINA ------------------");
-    repoCli.listaDeClientesConOficina();
+    // Cabecera de la tabla
+    System.out.printf("%-8s | %-25s | %-20s | %-25s | %-6s | %-15s%n",
+            "Código", "Cliente", "Vendedor", "Calle", "CP", "Ciudad");
+    System.out.println(String.join("", Collections.nCopies(105, "-")));
+    // Impresión formateada
+
+    repoCli.listaDeClientesConOficina().forEach(cofDTO ->
+            System.out.printf("%-8d | %-25s | %-20s | %-25s | %-6s | %-15s%n",
+                    cofDTO.codigo(),
+                    limitarLongitud(cofDTO.nombre(), 25),
+                    limitarLongitud(cofDTO.vendedor(), 20),
+                    limitarLongitud(cofDTO.calle(), 25),
+                    cofDTO.CP(),
+                    cofDTO.ciudad()
+            )
+    );
+}
+
+// Método auxiliar para formato de consola
+private static String limitarLongitud(String texto, int maxLength) {
+    return texto.length() > maxLength ? texto.substring(0, maxLength - 3) + "..." : texto;
 }

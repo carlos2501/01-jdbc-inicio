@@ -1,5 +1,6 @@
 package repositorios;
 
+import DTOs.ClienteOficinaDTO;
 import entidades.Cliente;
 import util.ConexionBD;
 
@@ -8,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ClienteRepo {
@@ -68,36 +68,26 @@ public class ClienteRepo {
         return clientes;
     }
 
-    public void listaDeClientesConOficina() throws SQLException {
+    public List<ClienteOficinaDTO> listaDeClientesConOficina() throws SQLException {
+        List<ClienteOficinaDTO> clientesConOficina = new ArrayList<>();
+        
         try (Statement stmt = obtenerConexion().createStatement();
              ResultSet rs = stmt.executeQuery(CLIENTES_DIRECCION_OFICINA)) {
 
-            // Cabecera de la tabla
-
-            System.out.printf("%-8s | %-25s | %-20s | %-25s | %-6s | %-15s%n",
-                    "Código", "Cliente", "Vendedor", "Calle", "CP", "Ciudad");
-            System.out.println(String.join("", Collections.nCopies(105, "-")));
-
             while (rs.next()) {
                 // Obtención de valores
-                int codigo = rs.getInt("codigo_cliente");
-                String cliente = rs.getString("nombre_cliente");
-                String vendedor = rs.getString("Vendedor");
-                String calle = rs.getString("Calle");
-                String cp = rs.getString("CP");
-                String ciudad = rs.getString("ciudad");
-
-                // Impresión formateada
-                System.out.printf("%-8d | %-25s | %-20s | %-25s | %-6s | %-15s%n",
-                        codigo, limitarLongitud(cliente, 25), limitarLongitud(vendedor, 20),
-                        limitarLongitud(calle, 25), cp, ciudad);
+                ClienteOficinaDTO cofDTO = new ClienteOficinaDTO(
+                        rs.getInt("codigo_cliente"),
+                        rs.getString("nombre_cliente"),
+                        rs.getString("Vendedor"),
+                        rs.getString("Calle"),
+                        rs.getString("CP"),
+                        rs.getString("ciudad")
+                );
+                clientesConOficina.add(cofDTO);
             }
         }
-    }
-
-    // Método auxiliar para formato de consola
-    private String limitarLongitud(String texto, int maxLength) {
-        return texto.length() > maxLength ? texto.substring(0, maxLength - 3) + "..." : texto;
+        return clientesConOficina;
     }
 }
 
